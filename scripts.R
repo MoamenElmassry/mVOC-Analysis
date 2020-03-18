@@ -1,6 +1,10 @@
 #Required libraries
-library("caper")
-library("geiger")
+library(caper)
+library(geiger)
+library(ape)
+library(adephylo)
+library(phylobase)
+library(phylosignal)
 
 #Function to calculate of D statistic for the phylogenetic structure (This was slightly modified from the phylo.d function in caper)
 phylo.d <- function(data, phy, names.col, binvar, permut=1000, rnd.bias=NULL) {
@@ -178,5 +182,18 @@ for(i in 1:476) {
   r=data.frame(volatile,D_Estimate, Pval_phylogenetic, Pval_Brownian)
 }
 
+
+#Visualize the tree with phylogentic signals
+dat<-read.csv('data.csv',header=TRUE)
+dat=dat[,-c(1:6)]
+row.names(dat)=dat$Genus
+dat=dat[,-1]
+voc=read.table("VOC.txt")
+voc=as.character(voc$V1)
+tree<-read.nexus("tree.nex")
+p4d <- phylo4d(tree, dat)
+gridplot(p4d, tree.type = "fan",trait = voc,
+         trait.bg.col = "white", tree.ratio = .3,
+         tip.cex = .25,show.trait = FALSE,tip.font = 1)
 
 
