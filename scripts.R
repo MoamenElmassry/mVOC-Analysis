@@ -2,7 +2,7 @@
 library("caper")
 library("geiger")
 
-#Function to calculate of D statistic for the phylogenetic structure
+#Function to calculate of D statistic for the phylogenetic structure (This was slightly modified from the phylo.d function in caper)
 phylo.d <- function(data, phy, names.col, binvar, permut=1000, rnd.bias=NULL) {
   
   # - test to see if there is a comparative data object and if not then
