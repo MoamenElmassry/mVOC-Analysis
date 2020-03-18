@@ -197,3 +197,19 @@ gridplot(p4d, tree.type = "fan",trait = voc,
          tip.cex = .25,show.trait = FALSE,tip.font = 1)
 
 
+#NMDS analysis
+dat<-read.csv('data.csv')
+dim(dat)
+voc.matrix<-as.matrix(dat[,8:483])
+mds <- voc.matrix%>%dist("binary") %>%cmdscale()%>%as_tibble()
+colnames(mds) <- c("Dim.1", "Dim.2")
+mds <- mds %>%mutate(groups = dat$Phylum)
+ggscatter(mds, x = "Dim.1", y = "Dim.2",color = "groups",size = 3,
+          ellipse = TRUE,ellipse.type = "convex",repel = TRUE,
+          alpha = 0.6,legend.title = "Phylum",ggtheme = theme_bw(base_rect_size = 2),
+          xlab="MDS 1",ylab="MDS 2",legend = "right",palette = "Paired")
+
+ggscatter(mds, x = "Dim.1", y = "Dim.2",size = 3,repel = TRUE,
+          alpha = 0.6,legend.title = "Phylum",ggtheme = theme_classic(),
+          xlab="MDS 1",ylab="MDS 2",label = mds$groups,legend="none")
+
